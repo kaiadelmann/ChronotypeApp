@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_activity_display_mctq"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+
+    <LinearLayout
+        android:id="@+id/llcontainer1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_marginTop="25dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/MCTQ_block_1_q1_id"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:text="@string/MCTQ_block_1_q1"
+            android:textSize="@dimen/abc_text_size_medium_material"/>
+
+        <RadioGroup
+            android:id="@+id/MCTQ_block_1_q1_radiogroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="0dp">
+
+            <RadioButton
+                android:id="@+id/MCTQ_block_1_q1_radioJa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="busybee"
+                android:text="@string/MCTQ_ja"/>
+
+            <RadioButton
+                android:id="@+id/MCTQ_block_1_q1_radioNein"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:onClick="lazydog"
+                android:text="@string/MCTQ_nein"/>
+        </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llcontainer2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llcontainer1"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/MCTQ_block_1_q2_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/MCTQ_block_1_q2"
+            android:textSize="@dimen/abc_text_size_medium_material"/>
+
+        <TextView
+            android:id="@+id/MCTQ_block_1_a2_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/MCTQ_block_1_q2_id"
+            android:text="@string/pick_minutes"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/MCTQ_block_1_a2_id"
+            android:onClick="showNumberPickerDialog"
+            android:src="@drawable/number19"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/MCTQ_button_showMCTQ2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="showMCTQnext"
+        android:text="@string/MCTQ_weiter"/>
+</RelativeLayout>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    package="de.weissaufgrau.adelmann.mctq"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DisplayMCTQActivity"
+            android:label="@string/title_activity_display_mctq"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.weissaufgrau.adelmann.mctq.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".DisplayMCTQ2Activity"
+            android:label="@string/title_activity_display_mctq2"
+            android:parentActivityName=".DisplayMCTQActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.weissaufgrau.adelmann.mctq.DisplayMCTQActivity"/>
+        </activity>
+        <activity
+            android:name=".DisplayMCTQ3Activity"
+            android:label="@string/title_activity_display_mctq3"
+            android:parentActivityName=".DisplayMCTQActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.weissaufgrau.adelmann.mctq.DisplayMCTQActivity"/>
+        </activity>
+        <activity
+            android:name=".DisplayMCTQ4Activity"
+            android:label="@string/title_activity_display_mctq4"
+            android:parentActivityName=".DisplayMCTQ2Activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.weissaufgrau.adelmann.mctq.DisplayMCTQ2Activity"/>
+        </activity>
+        <activity
+            android:name=".DisplayMCTQ5Activity"
+            android:label="@string/title_activity_display_mctq5"
+            android:parentActivityName=".DisplayMCTQ4Activity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.weissaufgrau.adelmann.mctq.DisplayMCTQ4Activity"/>
+        </activity>
+        <activity
+            android:name=".DisplayMCTQ6Activity"
+            android:label="@string/title_activity_display_mctq6"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="de.weissaufgrau.adelmann.mctq.MainActivity"/>
+        </activity>
+
+        <service
+            android:name=".AuthenticatorService">
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
+
+        <provider
+            android:name=".StubProvider"
+            android:authorities="de.weissaufgrau.adelmann.mctq.provider"
+            android:exported="false"
+            android:syncable="true"/>
+
+        <service
+            android:name=".SyncService"
+            android:exported="true"
+            android:process=":sync">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter"/>
+        </service>
+    </application>
+
+    <uses-permission
+        android:name="android.permission.INTERNET"/>
+    <uses-permission
+        android:name="android.permission.READ_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+</manifest>

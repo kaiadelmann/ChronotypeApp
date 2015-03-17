@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ChronotypeApp</string>
+    <string name="button_MCTQ">MCTQ</string>
+    <string name="action_settings">Settings</string>
+    <string name="MCTQ_stdn">Stunden</string>
+    <string name="MCTQ_std">Stunde</string>
+    <string name="MCTQ_minn">Minuten</string>
+    <string name="MCTQ_min">Minute</string>
+    <string name="MCTQ_tgn">Tagen</string>
+    <string name="MCTQ_tge">Tage</string>
+    <string name="MCTQ_tg">Tag</string>
+    <string name="MCTQ_uhr">Uhr</string>
+    <string name="MCTQ_ja">Ja</string>
+    <string name="MCTQ_nein">Nein</string>
+    <string name="MCTQ_weiter">Weiter</string>
+    <string name="MCTQ_zurueck">Zurück</string>
+    <string name="MCTQ_fertig">Fertig</string>
+    <string name="MCTQ_ende">Beenden</string>
+    <string name="title_activity_display_mctq">Allgemeines</string>
+    <string name="MCTQ_block1_tip">Bitte füllen Sie alle Felder aus, auch falls Sie nicht regelmäßig arbeiten! Machen Sie Ihre Angaben bitte anhand der 24-Stunden Skala (d. h. 23:00 Uhr statt 11:00 Uhr abends).</string>
+    <string name="MCTQ_block_1_q1">Ich gehe einer regelmäßigen Arbeit nach (dies schließt Hausfrau oder Hausmann ein)</string>
+    <string name="MCTQ_block_1_q2">Wieviele Tage pro Woche?</string>
+    <string name="title_activity_display_mctq2">Verhalten an freien Tagen</string>
+    <string name="MCTQ_block2_q1">Ich gehe ins Bett um </string>
+    <string name="MCTQ_block2_q2">Ich bin bereit einzuschlafen um </string>
+    <string name="MCTQ_block2_q3">Um einzuschlafen, brauche ich </string>
+    <string name="MCTQ_block2_q4">Ich wache auf um </string>
+    <string name="MCTQ_block2_q5">mit Wecker </string>
+    <string name="MCTQ_block2_q6">ohne Wecker </string>
+    <string name="MCTQ_block2_q7">Ich stehe auf nach </string>
+    <string name="title_activity_display_mctq3">Verhalten an Arbeitstagen</string>
+    <string name="MCTQ_block3_q1">Ich gehe ins Bett um </string>
+    <string name="MCTQ_block3_q2">Ich bin bereit einzuschlafen um </string>
+    <string name="MCTQ_block3_q3">Um einzuschlafen, brauche ich </string>
+    <string name="MCTQ_block3_q4">Ich wache auf um </string>
+    <string name="MCTQ_block3_q5">mit Wecker </string>
+    <string name="MCTQ_block3_q6">ohne Wecker </string>
+    <string name="MCTQ_block3_q7">Ich stehe auf nach </string>
+    <string name="title_activity_display_mctq4">Kommentare</string>
+    <string name="MCTQ_block4_q1">Bitte geben Sie hier an, falls Sie zur Zeit KEINE Möglichkeit haben, Ihre Schlafzeiten selbst zu bestimmen (z. B. wegen eines Haustieres, Kind(ern) etc.). Nutzen Sie dieses Feld auch, um zusätzliche Informationen zu geben: </string>
+
+    <string-array name="workdays">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+    <string-array name="minutes">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
+        <item>41</item>
+        <item>42</item>
+        <item>43</item>
+        <item>44</item>
+        <item>45</item>
+        <item>46</item>
+        <item>47</item>
+        <item>48</item>
+        <item>49</item>
+        <item>50</item>
+        <item>51</item>
+        <item>52</item>
+        <item>53</item>
+        <item>54</item>
+        <item>55</item>
+        <item>56</item>
+        <item>57</item>
+        <item>58</item>
+        <item>59</item>
+        <item>60</item>
+    </string-array>
+
+    <string name="pick_time">00:00</string>
+    <string name="pick_minutes">0</string>
+    <string name="title_activity_display_mctq5">Auswertung</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="MCTQ_weiter_lazydog">lazydog</string>
+    <string name="MCTQ_weiter_busybee">busybee</string>
+    <string name="title_activity_display_mctq6">Credits</string>
+    <string name="action_credits"><![CDATA[Credits & Impressum]]></string>
+    <string name="MCTQ_impressum">Institut für medizinische Psychologie - Zentrum für Chronobiologie\nLudwig-Maximilians-Universität München\n\nProf. Dr. rer. nat. Dr. med. habil. Till Roenneberg\n\nGoethestraße 31, 80336 München</string>
+    <string name="MCTQ_credits_header">Credits</string>
+    <string name="MCTQ_impressum_header">Impressum</string>
+    <string name="MCTQ_programmer"><![CDATA[Programmierung by <a href="mailto:kai.adelmann@gmail.com">Kai Adelmann (c) 2015]]></string>
+    <string name="MCTQ_save">Speichern</string>
+    <string name="MCTQ_datauploaddialog">Es sind bereits lokale Daten vorhanden. Hochladen oder neu erfassen?</string>
+    <string name="MCTQ_upload_btn">Hochladen</string>
+    <string name="MCTQ_cancel_btn">Neu erfassen</string>
+
+</resources>

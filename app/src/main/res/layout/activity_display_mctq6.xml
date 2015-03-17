@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/activity_vertical_margin"
+                tools:context="de.weissaufgrau.adelmann.mctq.DisplayMCTQ6Activity">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/MCTQ_credits_header"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline">
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/credit1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/circular116"/>
+
+        <TextView
+            android:id="@+id/link1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HULLAHUPP"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/credit2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/credit1"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/number19"/>
+
+        <TextView
+            android:id="@+id/link2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HULLAHUPP"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/header2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/credit2"
+        android:text="@string/MCTQ_programmer"/>
+
+    <TextView
+        android:id="@+id/header3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header2"
+        android:layout_marginTop="20dp"
+        android:text="@string/MCTQ_impressum_header"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header3"
+        android:text="@string/MCTQ_impressum"/>
+</RelativeLayout>
