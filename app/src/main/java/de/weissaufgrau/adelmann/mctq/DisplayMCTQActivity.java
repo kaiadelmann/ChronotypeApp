@@ -1,8 +1,6 @@
 package de.weissaufgrau.adelmann.mctq;
 
-import android.accounts.Account;
 import android.app.DialogFragment;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +10,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.apache.http.Header;
 
 
 public class DisplayMCTQActivity extends ActionBarActivity implements NumberPickerFragment.OnNumberDialogDoneListener, DataUploadDialogFragment.DataUploadDialogListener {
@@ -59,20 +61,26 @@ public class DisplayMCTQActivity extends ActionBarActivity implements NumberPick
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         //Upload der Daten, wenn Netzwerk verfübgar.
-        // Pass the settings flags by inserting them in a bundle
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-        settingsBundle.putString("mctqDataJSON", controller.composeJSONfromSQLite());
-        /*
-         * Request the sync for the default account, authority, and
-         * manual sync settings
-         */
-        Account mAccount = new Account(MainActivity.ACCOUNT, MainActivity.ACCOUNT_TYPE);
-        ContentResolver.requestSync(mAccount, MainActivity.AUTHORITY, settingsBundle);
-        controller.updateSyncStatus("uploaded", "1");
+        if (Utility.isOnline(this)) {
+            Utility.doUpload("http://10.0.2.2/mctq_db_adapter/insertdata.php", "mctqDataJSON", controller.composeJSONfromSQLite(), new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseString, Throwable throwable) {
+                            // called when response HTTP status is "4xx" (i.e. 401, 403, 404)
+                            Toast.makeText(getApplicationContext(), "Fehler: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseString) {
+                            // called when response HTTP status is "200 OK"
+                            controller.updateSyncStatus();
+                            Toast.makeText(getApplicationContext(), "Daten hochgeladen!", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+            );
+        } else {
+            Toast.makeText(getApplicationContext(), "Nicht online, bitte später versuchen!", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -138,7 +146,7 @@ public class DisplayMCTQActivity extends ActionBarActivity implements NumberPick
     /**
      * Show NumberPicker for answer 2 in block 1 with values from 1 to 7, set default value to 5
      *
-     * @param view
+     * @param view The view in question
      */
     public void showNumberPickerDialog(View view) {
         DialogFragment newFragment = NumberPickerFragment.newInstance(1, 5, MCTQ_B1_A2_ID, 1, 7);
@@ -147,16 +155,13 @@ public class DisplayMCTQActivity extends ActionBarActivity implements NumberPick
 
     @Override
     public void onDone(int value, int id) {
-        TextView tv = null;
+        TextView tv;
 
         if (id == 1) {
             tv = (TextView) findViewById(R.id.MCTQ_block_1_a2_id);
             workdays = value;
+            tv.setText(value);
         }
-
-        System.out.println(tv.getText() + "----" + tv.getId());
-        System.out.println(value);
-        tv.setText("" + value);
     }
 
     public void showMCTQnext(View view) {

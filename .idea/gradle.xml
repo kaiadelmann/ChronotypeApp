@@ -5,13 +5,11 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="D:\Android\Android Studio\gradle\gradle-2.2.1" />
+        <option name="gradleHome" value="E:\Android\Android Studio\gradle\gradle-2.2.1" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/android-async-http-1.4.4" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/gson-2.2.4" />
           </set>
         </option>
       </GradleProjectSettings>

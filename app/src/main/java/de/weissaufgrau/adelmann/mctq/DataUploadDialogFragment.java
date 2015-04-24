@@ -9,6 +9,8 @@ import android.os.Bundle;
 
 /**
  * Created by adelmann on 02.03.2015.
+ * <p/>
+ * The DialogFragment to be displayed for not completed uploads
  */
 public class DataUploadDialogFragment extends DialogFragment {
 

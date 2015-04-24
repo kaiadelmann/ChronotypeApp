@@ -36,9 +36,9 @@ public class TimePickerFragment extends DialogFragment
     /**
      * newInstance-Contructor for generating a new TimePickerFragment with an connected ID and starttime, so one knows where the call came from and can check if the picked time is before or after the given time
      *
-     * @param id
-     * @param date
-     * @return
+     * @param id   The id of the calling TimePicker
+     * @param date The starttime (Date-Object) to be set for the TimePicker
+     * @return A new TimePickerFragment-Instance with the specified values
      */
     public static TimePickerFragment newInstance(int id, Date date) {
         Bundle args = new Bundle();

@@ -66,43 +66,10 @@
                 android:value="de.weissaufgrau.adelmann.mctq.MainActivity"/>
         </activity>
 
-        <service
-            android:name=".AuthenticatorService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator"/>
-        </service>
-
-        <provider
-            android:name=".StubProvider"
-            android:authorities="de.weissaufgrau.adelmann.mctq.provider"
-            android:exported="false"
-            android:syncable="true"/>
-
-        <service
-            android:name=".SyncService"
-            android:exported="true"
-            android:process=":sync">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter"/>
-        </service>
     </application>
 
     <uses-permission
         android:name="android.permission.INTERNET"/>
-    <uses-permission
-        android:name="android.permission.READ_SYNC_SETTINGS"/>
-    <uses-permission
-        android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <uses-permission
-        android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
     <uses-permission
         android:name="android.permission.ACCESS_NETWORK_STATE"/>
 

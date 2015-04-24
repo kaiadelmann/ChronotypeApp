@@ -1,21 +1,17 @@
 package de.weissaufgrau.adelmann.mctq;
 
-import android.accounts.Account;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+
+import org.apache.http.Header;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,7 +28,6 @@ public class DisplayMCTQ5Activity extends ActionBarActivity {
     private HashMap<String, Integer> queryIntValues = new HashMap<>();
     private HashMap<String, Boolean> queryBooleanValues = new HashMap<>();
     private HashMap<String, Float> queryFloatValues = new HashMap<>();
-    private Account mAccount = new Account(MainActivity.ACCOUNT, MainActivity.ACCOUNT_TYPE);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,17 +223,6 @@ public class DisplayMCTQ5Activity extends ActionBarActivity {
                 + comments);
     }
 
-    /**
-     * Prüfen, ob Netzwerk vorhanden und verbunden ist
-     *
-     * @return true, wenn Netzwerk vorhanden und online
-     */
-    public boolean isOnline() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
-    }
 
     public void saveOnline(View view) {
         //Neue DBController-Instanz erzeugen
@@ -247,34 +231,26 @@ public class DisplayMCTQ5Activity extends ActionBarActivity {
         controller.truncTable("mctq_data");
         //Daten in Tabelle schreiben und somit lokal speichern
         controller.insertData(queryStringValues, queryBooleanValues, queryDateValues, queryIntValues, queryFloatValues);
-
         //Upload der Daten, wenn Netzwerk verfübgar.
-        if (isOnline()) {
-            //Create AsycHttpClient object
-            AsyncHttpClient client = new AsyncHttpClient();
-            RequestParams params = new RequestParams();
+        if (Utility.isOnline(this)) {
+            Utility.doUpload("http://10.0.2.2/mctq_db_adapter/insertdata.php", "mctqDataJSON", controller.composeJSONfromSQLite(), new AsyncHttpResponseHandler() {
+                        @Override
+                        public void onFailure(int statusCode, Header[] headers, byte[] responseString, Throwable throwable) {
+                            // called when response HTTP status is "4xx" (i.e. 401, 403, 404)
+                            Toast.makeText(getApplicationContext(), "Fehler: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
+                        }
 
-            params.put("mctqDataJSON", controller.composeJSONfromSQLite());
-            client.post("http://weissaufgrau.de/mctq_db_adapter/insertdata.php", params, new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(String response) {
-                    System.out.println("#######################" + response);
-                }
-            });
+                        @Override
+                        public void onSuccess(int statusCode, Header[] headers, byte[] responseString) {
+                            // called when response HTTP status is "200 OK"
+                            controller.updateSyncStatus();
+                            Toast.makeText(getApplicationContext(), "Daten hochgeladen!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+            );
         } else {
-            /*
-            * Request the sync for the default account, authority
-            * Pass the settings flags by inserting them in a bundle
-            */
-            Bundle settingsBundle = new Bundle();
-            settingsBundle.putBoolean(
-                    ContentResolver.SYNC_EXTRAS_MANUAL, true);
-            settingsBundle.putBoolean(
-                    ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-            settingsBundle.putString("mctqDataJSON", controller.composeJSONfromSQLite());
-            ContentResolver.setSyncAutomatically(mAccount, MainActivity.AUTHORITY, true);
+            Toast.makeText(getApplicationContext(), "Nicht online, bitte später versuchen!", Toast.LENGTH_LONG).show();
         }
-
     }
 
     @Override

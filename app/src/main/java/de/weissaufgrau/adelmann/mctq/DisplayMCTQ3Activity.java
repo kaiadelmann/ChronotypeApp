@@ -10,10 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 
 public class DisplayMCTQ3Activity extends ActionBarActivity implements TimePickerDialogListener, NumberPickerFragment.OnNumberDialogDoneListener {
@@ -24,14 +21,18 @@ public class DisplayMCTQ3Activity extends ActionBarActivity implements TimePicke
     private static final int MCTQ_B3_A3_ID = 4;
     private static final int MCTQ_B3_A7_ID = 5;
 
-    private boolean busybee = false;
-    private int workdays = 0;
-    private Date wdbedtime = new Date();
-    private Date wdpreparationtime = new Date();
-    private Date wduptime = new Date();
-    private boolean wdalarmclock = true;
-    private int wdtimetillsleeping = 0;
-    private int wdtimetillgettingup = 0;
+    private boolean busybee;
+    private int workdays;
+    private Date wdbedtime;
+    private Date wdpreparationtime;
+    private Date wduptime;
+    private boolean wdalarmclock;
+    private int wdtimetillsleeping;
+    private int wdtimetillgettingup;
+    private TextView tp1;
+    private TextView tp2;
+    private TextView tp3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,14 @@ public class DisplayMCTQ3Activity extends ActionBarActivity implements TimePicke
         Intent intent = getIntent();
         busybee = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_BUSYBEE, false);
         workdays = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_WORKDAYS, 0);
+
+        tp1 = (TextView) findViewById(R.id.MCTQ_block_3_a1_id);
+        tp1.setText(Utility.timeToString24h(Utility.getNow()));
+        tp2 = (TextView) findViewById(R.id.MCTQ_block_3_a2_id);
+        tp2.setText(Utility.timeToString24h(Utility.getNowPlus10m()));
+        tp3 = (TextView) findViewById(R.id.MCTQ_block_3_a4_id);
+        tp3.setText(Utility.timeToString24h(Utility.getGetNowPlus8h()));
+
     }
 
     @Override
@@ -72,7 +81,7 @@ public class DisplayMCTQ3Activity extends ActionBarActivity implements TimePicke
     /**
      * Shows TimePicker for answer 1 in block 3
      *
-     * @param view
+     * @param view The View in question
      */
     public void showTimePickerDialog(View view) {
         DialogFragment newFragment = TimePickerFragment.newInstance(MCTQ_B3_A1_ID);
@@ -82,7 +91,7 @@ public class DisplayMCTQ3Activity extends ActionBarActivity implements TimePicke
     /**
      * Shows TimePicker for answer 2 in block 3
      *
-     * @param view
+     * @param view The View in question
      */
     public void showTimePickerDialog2(View view) {
         DialogFragment newFragment = TimePickerFragment.newInstance(MCTQ_B3_A2_ID, wdbedtime);
@@ -92,7 +101,7 @@ public class DisplayMCTQ3Activity extends ActionBarActivity implements TimePicke
     /**
      * Shows TimePicker for answer 4 in block 3
      *
-     * @param view
+     * @param view The View in question
      */
     public void showTimePickerDialog3(View view) {
         DialogFragment newFragment = TimePickerFragment.newInstance(MCTQ_B3_A4_ID);
@@ -102,52 +111,36 @@ public class DisplayMCTQ3Activity extends ActionBarActivity implements TimePicke
     /**
      * Shows picked time in the correct TextView-Element
      *
-     * @param id
-     * @param view
-     * @param hourOfDay
-     * @param minute
+     * @param id        The id of the TextView to use
+     * @param view      The View in question
+     * @param hourOfDay picked hour
+     * @param minute    picked minute
      */
     @Override
     public void onTimeSet(int id, TimePicker view, int hourOfDay, int minute) {
-        TextView tv = null;
-        String time = hourOfDay + ":" + minute;
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm", Locale.GERMANY);
+        Date time = Utility.timestringToDate24h(hourOfDay + ":" + minute);
 
         if (id == 1) {
-            tv = (TextView) findViewById(R.id.MCTQ_block_3_a1_id);
-            try {
-                wdbedtime = dateFormat.parse(time);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            wdbedtime = time;
+            tp1.setText(Utility.timeToString24h(time));
         }
 
         if (id == 2) {
-            tv = (TextView) findViewById(R.id.MCTQ_block_3_a2_id);
-            try {
-                wdpreparationtime = dateFormat.parse(time);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            wdpreparationtime = time;
+            tp2.setText(Utility.timeToString24h(time));
         }
 
         if (id == 3) {
-            tv = (TextView) findViewById(R.id.MCTQ_block_3_a4_id);
-            try {
-                wduptime = dateFormat.parse(time);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            wduptime = time;
+            tp3.setText(Utility.timeToString24h(time));
         }
-
-        tv.setText(hourOfDay + ":" + minute);
     }
 
     /**
      * Show NumberPicker for answer 3 in block 3 with values from 0 to 60, set default value to 1
      *
-     * @param view
+     * @param view The View in question
      */
     public void showNumberPickerDialog1(View view) {
         DialogFragment newFragment = NumberPickerFragment.newInstance(1, 1, MCTQ_B3_A3_ID, 1, 60);
@@ -157,30 +150,33 @@ public class DisplayMCTQ3Activity extends ActionBarActivity implements TimePicke
     /**
      * Show NumberPicker for answer 7 in block 3 with values from 0 to 60, set default value to 1
      *
-     * @param view
+     * @param view The View in question
      */
     public void showNumberPickerDialog2(View view) {
         DialogFragment newFragment = NumberPickerFragment.newInstance(1, 1, MCTQ_B3_A7_ID, 1, 60);
         newFragment.show(getFragmentManager(), "numberPicker5");
     }
 
+    /**
+     * Method called when NumberPicker is done
+     *
+     * @param value The picked value
+     * @param id    The id of the TextView to use
+     */
     @Override
     public void onDone(int value, int id) {
-        TextView tv = null;
 
         if (id == 4) {
-            tv = (TextView) findViewById(R.id.MCTQ_block_3_a3_id);
+            TextView tv = (TextView) findViewById(R.id.MCTQ_block_3_a3_id);
             wdtimetillsleeping = value;
+            tv.setText(value);
         }
 
         if (id == 5) {
-            tv = (TextView) findViewById(R.id.MCTQ_block_3_a7_id);
+            TextView tv = (TextView) findViewById(R.id.MCTQ_block_3_a7_id);
             wdtimetillgettingup = value;
+            tv.setText(value);
         }
-
-        System.out.println(tv.getText() + "----" + tv.getId());
-        System.out.println(value);
-        tv.setText("" + value);
     }
 
     public void odWithAlarm(View view) {

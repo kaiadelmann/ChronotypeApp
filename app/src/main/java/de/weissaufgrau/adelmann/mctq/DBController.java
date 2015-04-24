@@ -105,9 +105,9 @@ public class DBController extends SQLiteOpenHelper {
         database.close();
 
         if (insertok > 0) {
-            System.out.println("Insert OK!");
+            System.out.println("Lokaler INSERT erfolgreich!");
         } else {
-            System.out.println("Insert FAILED!");
+            System.out.println("Lokaler INSERT fehlgeschlagen!");
         }
     }
 
@@ -167,7 +167,7 @@ public class DBController extends SQLiteOpenHelper {
                 map.put("workdays_minutestillup", String.valueOf(cursor.getInt(5)));
                 map.put("offdays_bedtime", String.valueOf(cursor.getLong(6)));
                 map.put("offdays_readytosleeptime", String.valueOf(cursor.getLong(7)));
-                map.put("offdays_readytosleeptime", String.valueOf(cursor.getInt(8)));
+                map.put("offdays_minutestillsleep", String.valueOf(cursor.getInt(8)));
                 map.put("offdays_uptime", String.valueOf(cursor.getLong(9)));
                 map.put("offdays_minutestillup", String.valueOf(cursor.getInt(10)));
                 map.put("sow", String.valueOf(cursor.getFloat(11)));
@@ -222,14 +222,11 @@ public class DBController extends SQLiteOpenHelper {
     }
 
     /**
-     * Update Sync status against each User ID
-     *
-     * @param id
-     * @param status
+     * Update Sync status
      */
-    public void updateSyncStatus(String id, String status) {
+    public void updateSyncStatus() {
         SQLiteDatabase database = this.getWritableDatabase();
-        String updateQuery = "Update users set udpateStatus = '" + status + "' where userId=" + "'" + id + "'";
+        String updateQuery = "UPDATE mctq_data SET uploaded = 1 where uploaded=0";
         Log.d("query", updateQuery);
         database.execSQL(updateQuery);
         database.close();
