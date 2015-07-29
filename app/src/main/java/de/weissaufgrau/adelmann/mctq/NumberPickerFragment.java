@@ -107,7 +107,6 @@ public class NumberPickerFragment extends DialogFragment {
                         if (mListener != null) {
                             mListener.onDone(currentValue, mId);
                         }
-                        ;
                         dismiss();
                     }
                 });
@@ -141,6 +140,6 @@ public class NumberPickerFragment extends DialogFragment {
     }
 
     public interface OnNumberDialogDoneListener {
-        public void onDone(int value, int id);
+        void onDone(int value, int id);
     }
 }

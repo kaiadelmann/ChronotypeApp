@@ -11,18 +11,17 @@
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"
                     android:paddingTop="@dimen/activity_vertical_margin"
-                    tools:context="de.weissaufgrau.adelmann.mctq.DisplayMCTQ3Activity">
+                    tools:context="de.weissaufgrau.adelmann.mctq.DisplayMCTQ2Activity">
 
-        <!-- <TextView
-             android:id="@+id/header"
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:text="@string/title_activity_display_mctq3"
-             android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>-->
-
+        <!--<TextView
+            android:id="@+id/header"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_activity_display_mctq2"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>-->
 
         <TextView
-            android:id="@+id/MCTQ_block_3_tip_id"
+            android:id="@+id/MCTQ_block_2_tip_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/header"
@@ -32,28 +31,28 @@
             android:id="@+id/line1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/MCTQ_block_3_tip_id"
-            android:layout_marginTop="10dp"
+            android:layout_below="@id/MCTQ_block_2_tip_id"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/MCTQ_block_3_q1_id"
+                android:id="@+id/MCTQ_block_2_q1_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/MCTQ_block2_q1"/>
 
             <TextView
-                android:id="@+id/MCTQ_block_3_a1_id"
+                android:id="@+id/MCTQ_block_2_a1_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/MCTQ_block_3_q1_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_q1_id"
                 android:text="@string/pick_time"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/MCTQ_block_3_a1_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_a1_id"
                 android:onClick="showTimePickerDialog"
                 android:src="@drawable/ic_clock"/>
         </LinearLayout>
@@ -63,27 +62,27 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/line1"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/MCTQ_block_3_q2_id"
+                android:id="@+id/MCTQ_block_2_q2_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/MCTQ_block2_q2"/>
 
             <TextView
-                android:id="@+id/MCTQ_block_3_a2_id"
+                android:id="@+id/MCTQ_block_2_a2_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/MCTQ_block_3_q2_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_q2_id"
                 android:text="@string/pick_time"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/MCTQ_block_3_a2_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_a2_id"
                 android:onClick="showTimePickerDialog2"
                 android:src="@drawable/ic_clock"/>
         </LinearLayout>
@@ -93,36 +92,36 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/line2"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/MCTQ_block_3_q3_id"
+                android:id="@+id/MCTQ_block_2_q3_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/MCTQ_block2_q3"/>
 
             <TextView
-                android:id="@+id/MCTQ_block_3_a3_id"
+                android:id="@+id/MCTQ_block_2_a3_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/MCTQ_block_3_q3_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_q3_id"
                 android:text="@string/pick_minutes"/>
 
             <ImageButton
-                android:id="@+id/MCTQ_b3_a3_Btn"
+                android:id="@+id/MCTQ_b2_a3_Btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/MCTQ_block_3_a1_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_a1_id"
                 android:onClick="showNumberPickerDialog1"
                 android:src="@drawable/ic_123"/>
 
             <TextView
-                android:id="@+id/MCTQ_block_3_a3_suffix"
+                android:id="@+id/MCTQ_block_2_a3_suffix"
+                style="@style/Base.TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/MCTQ_block_3_a3_id"
                 android:text="@string/MCTQ_minn"/>
         </LinearLayout>
 
@@ -131,7 +130,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/line3"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical">
 
             <LinearLayout
@@ -141,55 +140,55 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/MCTQ_block_3_q4_id"
+                    android:id="@+id/MCTQ_block_2_q4_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/MCTQ_block2_q4"/>
 
                 <TextView
-                    android:id="@+id/MCTQ_block_3_a4_id"
+                    android:id="@+id/MCTQ_block_2_a4_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@id/MCTQ_block_3_q4_id"
+                    android:layout_toRightOf="@id/MCTQ_block_2_q4_id"
                     android:text="@string/pick_time"/>
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/MCTQ_block_3_a1_id"
+                    android:layout_toRightOf="@id/MCTQ_block_2_a1_id"
                     android:onClick="showTimePickerDialog3"
                     android:src="@drawable/ic_clock"/>
             </LinearLayout>
 
-            <!-- <LinearLayout
-                 android:id="@+id/line4_2"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content">
+            <!--<LinearLayout
+                android:id="@+id/line4_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-                 <RadioGroup
-                     android:id="@+id/MCTQ_block_3_radiogroup_id"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content">
+                <RadioGroup
+                    android:id="@+id/MCTQ_block_2_radiogroup_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-                     <RadioButton
-                         android:id="@+id/MCTQ_mit_Wecker"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:checked="true"
-                         android:onClick="odWithAlarm"
-                         android:text="@string/MCTQ_block2_q5"
-                         android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+                    <RadioButton
+                        android:id="@+id/MCTQ_mit_Wecker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:onClick="odWithAlarm"
+                        android:text="@string/MCTQ_block2_q5"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
 
-                     <RadioButton
-                         android:id="@+id/MCTQ_ohne_Wecker"
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:onClick="odWithoutAlarm"
-                         android:text="@string/MCTQ_block2_q6"
-                         android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
-                 </RadioGroup>
-             </LinearLayout>-->
+                    <RadioButton
+                        android:id="@+id/MCTQ_ohne_Wecker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="odWithoutAlarm"
+                        android:text="@string/MCTQ_block2_q6"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+                </RadioGroup>
+            </LinearLayout>-->
         </LinearLayout>
 
         <LinearLayout
@@ -227,36 +226,36 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/line4_3"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/MCTQ_block_3_q7_id"
+                android:id="@+id/MCTQ_block_2_q7_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/MCTQ_block2_q7"/>
 
             <TextView
-                android:id="@+id/MCTQ_block_3_a7_id"
+                android:id="@+id/MCTQ_block_2_a7_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/MCTQ_block_3_q7_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_q7_id"
                 android:text="@string/pick_minutes"/>
 
             <ImageButton
-                android:id="@+id/MCTQ_b3_a7_Btn"
+                android:id="@+id/MCTQ_b2_a7_Btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/MCTQ_block_3_a7_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_a7_id"
                 android:onClick="showNumberPickerDialog2"
                 android:src="@drawable/ic_123"/>
 
             <TextView
-                android:id="@+id/MCTQ_block_3_a7_suffix"
+                android:id="@+id/MCTQ_block_2_a7_suffix"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/MCTQ_block_3_a7_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_a7_id"
                 android:text="@string/MCTQ_minn"/>
         </LinearLayout>
 
@@ -265,41 +264,38 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/line5"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:weightSum="1.0">
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical">
 
             <TextView
-                android:id="@+id/MCTQ_block_3_q8_id"
-                android:layout_width="0dip"
+                android:id="@+id/MCTQ_block_2_q8_id"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.9"
                 android:text="@string/MCTQ_block2_q8"/>
 
             <TextView
-                android:id="@+id/MCTQ_block_3_a8_id"
+                android:id="@+id/MCTQ_block_2_a8_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@id/MCTQ_block_3_q8_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_q8_id"
                 android:text="@string/pick_time"/>
 
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/MCTQ_block_3_a8_id"
+                android:layout_toRightOf="@id/MCTQ_block_2_a8_id"
                 android:onClick="showTimePickerDialog4"
                 android:src="@drawable/ic_clock"/>
         </LinearLayout>
 
         <Button
+            android:id="@+id/MCTQ_button_lazydog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/line6"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:onClick="showMCTQ2"
+            android:onClick="showMCTQ4"
             android:text="@string/MCTQ_weiter"/>
     </RelativeLayout>
 </ScrollView>

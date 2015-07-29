@@ -8,12 +8,12 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 tools:context="de.weissaufgrau.adelmann.mctq.DisplayMCTQ4Activity">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_activity_display_mctq4"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>-->
 
     <Button
         android:id="@+id/MCTQ_button_done"

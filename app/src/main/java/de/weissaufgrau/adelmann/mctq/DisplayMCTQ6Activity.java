@@ -12,11 +12,13 @@ public class DisplayMCTQ6Activity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_mctq6);
 
         String link = "Icons made by <a href=\"http://www.freepik.com\" title=\"Freepik\">Freepik</a> from <a href=\"http://www.flaticon.com\" title=\"Flaticon\">www.flaticon.com</a> is licensed by <a href=\"http://creativecommons.org/licenses/by/3.0/\" title=\"Creative Commons BY 3.0\">CC BY 3.0</a>";
         String link2 = "Icon made by <a href=\"http://www.freepik.com\" title=\"Freepik\">Freepik</a> from <a href=\"http://www.flaticon.com\" title=\"Flaticon\">www.flaticon.com</a> is licensed under <a href=\"http://creativecommons.org/licenses/by/3.0/\" title=\"Creative Commons BY 3.0\">CC BY 3.0</a>";
+        String link3 = "Owl and lark pictures are taken from <a href=\"http://openclipart.org\" title=\"openclipart.org\">openclipart.org</a>";
 
         TextView tv1 = (TextView) findViewById(R.id.link1);
         tv1.setText(link);
@@ -24,6 +26,9 @@ public class DisplayMCTQ6Activity extends ActionBarActivity {
         TextView tv2 = (TextView) findViewById(R.id.link2);
         tv2.setText(link2);
         Linkify.addLinks(tv2, Linkify.ALL);
+        TextView tv3 = (TextView) findViewById(R.id.link3);
+        tv3.setText(link3);
+        Linkify.addLinks(tv3, Linkify.ALL);
 
     }
 

@@ -8,6 +8,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -42,7 +44,7 @@ public class Utility {
      * @param data          The data sent to the Server
      * @param handler       The responsehandler for the answer from the server
      */
-    public static void doUpload(final String url, String parameterName, String data, AsyncHttpResponseHandler handler) {
+    public static void doUpload(final String url, String parameterName, String data, final OnMyHttpResponseCallback handler) {
         //Create SyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
         //Create requestparameters
@@ -51,7 +53,22 @@ public class Utility {
         params.put(parameterName, data);
 
         //do POST
-        client.post(url, params, handler);
+        client.post(url, params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseString, Throwable throwable) {
+                // called when response HTTP status is "4xx" (i.e. 401, 403, 404)
+                //Toast.makeText(getApplicationContext(), "Fehler: " + throwable.getMessage() + " - try again later!", Toast.LENGTH_LONG).show();
+                handler.onMyHttpResponse(false, throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseString) {
+                // called when response HTTP status is "200 OK"
+                //controller.updateSyncStatus();
+                //Toast.makeText(getApplicationContext(), "Daten hochgeladen!", Toast.LENGTH_LONG).show();
+                handler.onMyHttpResponse(true, responseString.toString());
+            }
+        });
     }
 
     /**
@@ -117,5 +134,9 @@ public class Utility {
      */
     public static final Date getNow() {
         return cal.getTime();
+    }
+
+    public interface OnMyHttpResponseCallback {
+        void onMyHttpResponse(boolean success, String response);
     }
 }

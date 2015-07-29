@@ -10,14 +10,14 @@ import android.os.Bundle;
 /**
  * Created by adelmann on 02.03.2015.
  * <p/>
- * The DialogFragment to be displayed for not completed uploads
+ * The DialogFragment to be displayed in case an error happens while uploading data
  */
-public class DataUploadDialogFragment extends DialogFragment {
+public class DataUploadErrorDialogFragment extends DialogFragment {
 
     // Use this instance of the interface to deliver action events
-    DataUploadDialogListener mListener;
+    DataUploadErrorDialogListener mListener;
 
-    public DataUploadDialogFragment() {
+    public DataUploadErrorDialogFragment() {
         // Required empty public constructor
     }
 
@@ -25,39 +25,39 @@ public class DataUploadDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.MCTQ_datauploaddialog)
-                .setPositiveButton(R.string.MCTQ_upload_btn, new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.MCTQ_datauploaderrordialog)
+                .setPositiveButton(R.string.MCTQ_uploadretry_btn, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogPositiveClick(DataUploadDialogFragment.this);
+                        mListener.onDialogPositiveClick(DataUploadErrorDialogFragment.this);
                     }
                 })
-                .setNegativeButton(R.string.MCTQ_cancel_btn, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.MCTQ_cancelerror_btn, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        mListener.onDialogNegativeClick(DataUploadDialogFragment.this);
+                        mListener.onDialogNegativeClick(DataUploadErrorDialogFragment.this);
                     }
                 });
         // Create the AlertDialog object and return it
         return builder.create();
     }
 
-    // Override the Fragment.onAttach() method to instantiate the DataUploadDialogListener
+    // Override the Fragment.onAttach() method to instantiate the DataUploadErrorDialogListener
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the DataUploadDialogListener so we can send events to the host
-            mListener = (DataUploadDialogListener) activity;
+            // Instantiate the DataUploadErrorDialogListener so we can send events to the host
+            mListener = (DataUploadErrorDialogListener) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
-            throw new ClassCastException(activity.toString() + " must implement DataUploadDialogListener");
+            throw new ClassCastException(activity.toString() + " must implement DataUploadErrorDialogListener");
         }
     }
 
     /* The activity that creates an instance of this dialog fragment must
      * implement this interface in order to receive event callbacks.
      * Each method passes the DialogFragment in case the host needs to query it. */
-    public interface DataUploadDialogListener {
+    public interface DataUploadErrorDialogListener {
         void onDialogPositiveClick(DialogFragment dialog);
 
         void onDialogNegativeClick(DialogFragment dialog);

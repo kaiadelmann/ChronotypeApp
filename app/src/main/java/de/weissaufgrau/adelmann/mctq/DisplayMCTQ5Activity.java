@@ -6,15 +6,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.apache.http.Header;
-
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -29,200 +25,154 @@ public class DisplayMCTQ5Activity extends ActionBarActivity {
     private HashMap<String, Boolean> queryBooleanValues = new HashMap<>();
     private HashMap<String, Float> queryFloatValues = new HashMap<>();
 
+    private Date lew = new Date(); //Light exposure (workdays)
+    private Date lef = new Date(); //Light exposure (work-free days)
+
+    private Long sow = (long) 0; // Sleep onset (workdays) = SPrepW+SLatW
+    private Long sdw = (long) 0; //Sleep duration (workdays) = SEw-SOw
+    private Long tbtw = (long) 0; // Total time in bed (workdays) = GUw-BTw
+    private Long msw = (long) 0; //Mid-Sleep (workdays) = SOw+SDw/2
+    private Long msfsc = (long) 0; // Chronotype (only computable if alarmf=false) = If SDf<=SDw: MSF, if SDf>SDw: MSF-(SDf-SDweek)/2
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_mctq5);
 
         Intent intent = getIntent();
-        boolean busybee = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_BUSYBEE, false);
-        int workdays = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_WORKDAYS, 0);
-        Date odbedtime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_BEDTIME);
-        Date odpreparationtime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_PREPARATIONTIME);
-        int odtimetillsleeping = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_TIMETILLSLEEPING, 0);
-        Date oduptime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_UPTIME);
-        boolean odalarmclock = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_ALARMCLOCK, true);
-        int odtimetillgettingup = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_TIMETILLGETTINGUP, 0);
-        Date wdbedtime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_BEDTIME);
-        Date wdpreparationtime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_PREPARATIONTIME);
-        int wdtimetillsleeping = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_TIMETILLSLEEPING, 0);
-        Date wduptime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_UPTIME);
-        boolean wdalarmclock = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_ALARMCLOCK, true);
-        int wdtimetillgettingup = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_TIMETILLGETTINGUP, 0);
+        /*busybee = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_BUSYBEE, false);*/
+        int wd = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD, 0);
+        Date btf = intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_BTF) != null ? (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_BTF) : new Date();
+        Date sprepf = intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SPREPF) != null ? (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SPREPF) : new Date();
+        int slatf = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_SLATF, 0);
+        Date sef = intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SEF) != null ? (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SEF) : new Date();
+        boolean alarmf = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_ALARMF, true);
+        int sif = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_SIF, 0);
+        Date btw = intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_BTW) != null ? (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_BTW) : new Date();
+        Date sprepw = intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SPREPW) != null ? (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SPREPW) : new Date();
+        int slatw = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_SLATW, 0);
+        Date sew = intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SEW) != null ? (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SEW) : new Date();
+        boolean alarmw = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_ALARMW, true);
+        int siw = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_SIW, 0);
         String comments = intent.getStringExtra(DisplayMCTQActivity.EXTRA_MCTQ_COMMENTS);
-        boolean uploaded = false;
 
-        if (odbedtime == null) {
-            odbedtime = new Date();
-        }
-        if (odpreparationtime == null) {
-            odpreparationtime = new Date();
-        }
-        if (oduptime == null) {
-            oduptime = new Date();
-        }
-        if (wdbedtime == null) {
-            wdbedtime = new Date();
-        }
-        if (wdpreparationtime == null) {
-            wdpreparationtime = new Date();
-        }
-        if (wduptime == null) {
-            wduptime = new Date();
-        }
         if (comments == null) {
             comments = "";
         }
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm", Locale.GERMANY);
 
-        TextView tv = (TextView) findViewById(R.id.MCTQ_Auswertung);
+        TextView tvauswertung = (TextView) findViewById(R.id.MCTQ_Auswertung);
+        TextView tvcolldata = (TextView) findViewById(R.id.MCTQ_collecteddata);
+        ImageView imglark = (ImageView) findViewById(R.id.lark);
+        ImageView imgowl = (ImageView) findViewById(R.id.owl);
 
-        //Berechnen der Einschlafzeit in Industrieminuten (Dezimal statt Uhrzeit) an Werktagen
-        Calendar wdsleeponsettime = Calendar.getInstance();
-        wdsleeponsettime.setTime(wdpreparationtime);
-        wdsleeponsettime.add(Calendar.MINUTE, wdtimetillsleeping);
-        int wdsleeponsethour = wdsleeponsettime.get(Calendar.HOUR_OF_DAY);
-        float wdsleeponsetminutesdecimal = ((float) wdsleeponsettime.get(Calendar.MINUTE) / 60);
-        float sow = wdsleeponsethour + wdsleeponsetminutesdecimal;
+        //Computed variables
+        int fd = 7 - wd;
+        Long sof = sprepf.getTime() + slatf;
+        Long guf = sef.getTime() + sif;
+        Long tbtf = guf - btf.getTime();
+        Long sdf = sef.getTime() - sof;
+        Long msf = (sof + sdf) / 2;
 
-        //Berechnen der Schlafdauer in Industrieminuten (Dezimal statt Uhrzeit) an Werktagen
-        Calendar wdwakeuptime = Calendar.getInstance();
-        wdwakeuptime.setTime(wduptime);
-        int wdwakeuptimehour = wdwakeuptime.get(Calendar.HOUR_OF_DAY);
-        float wdwakeuptimeminutesdecimal = ((float) wdwakeuptime.get(Calendar.MINUTE) / 60);
-        float sdw = wdwakeuptimehour + wdwakeuptimeminutesdecimal;
-
-        //Berechnen der Schlafmitte an Werktagen
-        float msw = sow + (sdw / 2);
-        if (msw > 24) {
-            msw = msw - 24;
+        //Computed only if workdays >0
+        if (wd > 0) {
+            sow = sprepw.getTime() + slatw;
+            sdw = sew.getTime() - sow;
+            Long guw = sew.getTime() + siw;
+            tbtw = guw - btw.getTime();
+            msw = (sow + sdw) / 2;
         }
 
-        //Berechnen der Einschlafzeit in Industrieminuten (Dezimal statt Uhrzeit) an freien Tagen
+        Long leweek = (lew.getTime() * wd + lef.getTime() * fd) / 7;
+        Long sdweek = (sdw * wd + sdf * fd) / 7;
+        /*Long sjlrel = msf - msw;*/
+        Long sjl = Math.abs(msf - msw);
 
-        odpreparationtime.getTime();
+        //Calculation of chronotype only if alarmf=false (person wakes up on work-free days without alarmclock)
+        if (!alarmf) {
+            if (sdf <= sdw) {
+                msfsc = msf;
+            } else {
+                msfsc = msf - (sdf - sdweek) / 2;
+            }
 
-        Calendar odsleeponsettime = Calendar.getInstance();
-        odsleeponsettime.setTime(odpreparationtime);
-        odsleeponsettime.add(Calendar.MINUTE, odtimetillsleeping);
-        int odsleeponsethour = odsleeponsettime.get(Calendar.HOUR_OF_DAY);
-        float odsleeponsetminutesdecimal = ((float) odsleeponsettime.get(Calendar.MINUTE) / 60);
-        float sof = odsleeponsethour + odsleeponsetminutesdecimal;
+            //Ausgabe des Chronotyps (Mitte bei 4, darunter Frühtyp, darüber Spättyp)
+            if (msfsc < 4) {
+                chronotype = "Frühtyp (\"Lerche\")";
+                imglark.setVisibility(View.VISIBLE);
+                imgowl.setVisibility(View.GONE);
+            }
 
-        //Berechnen der Schlafdauer in Industrieminuten (Dezimal statt Uhrzeit) an freien Tagen
-        Calendar odwakeuptime = Calendar.getInstance();
-        odwakeuptime.setTime(oduptime);
-        int odwakeuptimehour = odwakeuptime.get(Calendar.HOUR_OF_DAY);
-        float odwakeuptimeminutesdecimal = ((float) odwakeuptime.get(Calendar.MINUTE) / 60);
-        float sdf = odwakeuptimehour + odwakeuptimeminutesdecimal;
+            if (msfsc > 4) {
+                chronotype = "Spättyp (\"Eule\")";
+                imglark.setVisibility(View.GONE);
+                imgowl.setVisibility(View.VISIBLE);
+            }
 
-        //Berechnen der Schlafmitte an freien Tagen
-        float msf = sof + (sdf / 2);
-        if (msf > 24) {
-            msf = msf - 24;
+            if (msfsc == 4) {
+                chronotype = "Normaltyp";
+            }
+
+            queryDateValues.put("workdays_bedtime", btw.getTime());
+            queryDateValues.put("workdays_readytosleeptime", sprepw.getTime());
+            queryDateValues.put("workdays_uptime", sew.getTime());
+            queryIntValues.put("workdays_minutestillsleep", slatw);
+            queryIntValues.put("workdays_minutestillup", siw);
+            queryBooleanValues.put("workdays_alarmclock", alarmw);
+            queryFloatValues.put("sow", sow.floatValue());
+            queryFloatValues.put("sdw", sdw.floatValue());
+            queryFloatValues.put("msw", msw.floatValue());
         }
 
-        //Berechnen der Schlafdauer im Wochendurchscnitt
-        // Formel: Schlafdauer werktags mal Anzahl der Werktage plus Schlafdauer an freien Tagen * Anzahl der freien Tage (welche sich aus der Differenz von 7 Wochentagen und den angegebenen Werktagen berechnet) geteilt durch 7 (Wochentage)
-        float sdweek = (sdw * workdays) + (sdf * 7 - workdays) / 7;
+        int chronotype_id = Math.round(msfsc);
 
-        //Korrektur der Schlafmitte um "Überschlaf" an freien Tagen, wenn ein unterschied zwischen der Schlafdauer an Werk- und freien Tagen besteht
-        float msfsc;
-        if (sdw == sdf) {
-            msfsc = msf;
+        //Calculation of weekly sleep loss
+        Long slossweek;
+        if (sdweek > sdw) {
+            slossweek = (sdweek - sdw) * wd;
         } else {
-            msfsc = msf - (sdf - sdweek) / 2;
+            slossweek = (sdweek - sdf) * fd;
         }
 
-        //Berechnung des "social jetlag", also der Differenz aus MSF und MSW
-        float socialjetlag = Math.abs(msf - msw);
-
-        //Ausgabe des Chronotyps (Mitte bei 4, darunter Frühtyp, darüber Spättyp)
-        if (socialjetlag < 4) {
-            chronotype = "Frühtyp";
-        }
-        if (socialjetlag > 4) {
-            chronotype = "Spättyp";
-        }
-        if (socialjetlag == 4) {
-            chronotype = "ausgewogen";
-        }
-
-        int chronotype_id = Math.round(socialjetlag);
 
         queryStringValues.put("comments", comments);
 
-        queryDateValues.put("workdays_bedtime", wdbedtime.getTime());
-        queryDateValues.put("workdays_readytosleeptime", wdpreparationtime.getTime());
-        queryDateValues.put("workdays_uptime", wduptime.getTime());
-        queryDateValues.put("offdays_bedtime", odbedtime.getTime());
-        queryDateValues.put("offdays_readytosleeptime", odpreparationtime.getTime());
-        queryDateValues.put("offdays_uptime", oduptime.getTime());
 
-        queryIntValues.put("workdays_minutestillsleep", wdtimetillsleeping);
-        queryIntValues.put("workdays_minutestillup", wdtimetillgettingup);
-        queryIntValues.put("offdays_minutestillsleep", odtimetillsleeping);
-        queryIntValues.put("offdays_minutestillup", odtimetillgettingup);
+        queryDateValues.put("offdays_bedtime", btf.getTime());
+        queryDateValues.put("offdays_readytosleeptime", sprepf.getTime());
+        queryDateValues.put("offdays_uptime", sef.getTime());
+        queryIntValues.put("offdays_minutestillsleep", slatf);
+        queryIntValues.put("offdays_minutestillup", sif);
+        queryBooleanValues.put("offdays_alarmclock", alarmf);
         queryIntValues.put("chronotype_id", chronotype_id);
+        queryBooleanValues.put("uploaded", false);
+        queryFloatValues.put("sof", sof.floatValue());
+        queryFloatValues.put("sdf", sdf.floatValue());
+        queryFloatValues.put("msf", msf.floatValue());
+        queryFloatValues.put("msfsc", msfsc.floatValue());
+        queryFloatValues.put("socialjetlag", sjl.floatValue());
 
-        queryBooleanValues.put("offdays_alarmclock", odalarmclock);
-        queryBooleanValues.put("workdays_alarmclock", wdalarmclock);
-        queryBooleanValues.put("uploaded", uploaded);
-
-        queryFloatValues.put("sow", sow);
-        queryFloatValues.put("sdw", sdw);
-        queryFloatValues.put("msw", msw);
-        queryFloatValues.put("sof", sof);
-        queryFloatValues.put("sdf", sdf);
-        queryFloatValues.put("msf", msf);
-        queryFloatValues.put("msfsc", msfsc);
-        queryFloatValues.put("socialjetlag", socialjetlag);
-
-        tv.setText("berechneter Chronotyp: " + chronotype
-                + "\n\n\nchronotype_ID: " + chronotype_id
-                + "\n\n\nsow: " + sow
-                + "\nsdw: " + sdw
-                + "\nwdwakeuptimehour: " + wdwakeuptimehour
-                + "\nwdwakeuptimeminutesdecimal: " + wdwakeuptimeminutesdecimal
-                + "\nmsw: " + msw
-                + "\n\n\nsof: " + sof
-                + "\nsdf: " + sdf
-                + "\nmsf: " + msf
-                + "\nodwakeuptimehour: " + odwakeuptimehour
-                + "\nodwakeuptimeminutesdecimal: " + odwakeuptimeminutesdecimal
-                + "\nmsfsc: " + msfsc
-                + "\nsocialjetlag: " + socialjetlag
-                + "\n\n\nbusybee: " + busybee
-                + "\nworkdays: " + workdays
-                + "\nodbedtime: "
-                + dateFormat.format(odbedtime)
-                + "\nodpreparationtime: "
-                + dateFormat.format(odpreparationtime)
-                + "\nodtimetillsleeping: "
-                + odtimetillsleeping
-                + "\noduptime: "
-                + dateFormat.format(oduptime)
-                + "\nodalarmclock: "
-                + odalarmclock
-                + "\nodtimetillgettingup: "
-                + odtimetillgettingup
-                + "\nwdbedtime: "
-                + dateFormat.format(wdbedtime)
-                + "\nwdpreparationtime: "
-                + dateFormat.format(wdpreparationtime)
-                + "\nwdtimetillsleeping: "
-                + wdtimetillsleeping
-                + "\nwduptime: "
-                + dateFormat.format(wduptime)
-                + "\nwdalarmclock: "
-                + wdalarmclock
-                + "\nwdtimetillgettingup: "
-                + wdtimetillgettingup
-                + "\ncomments: "
-                + comments);
+        tvauswertung.setText("Nach Ihren Angaben sind Sie ein " + chronotype);
+        tvcolldata.setText("chronotype_ID: " + chronotype_id
+                + "\nEinschlafzeit an Arbeitstagen/freien Tagen: " + dateFormat.format(new Date(sow)) + "/" + dateFormat.format(new Date(sof))
+                + "\nSchlafdauer an Arbeitstagen/freien Tagen: " + dateFormat.format(new Date(sdw)) + "/" + dateFormat.format(new Date(sdf))
+                + "\nAufwachzeit an Arbeitstagen/freien Tagen: " + dateFormat.format(sew) + "/" + dateFormat.format(sef)
+                + "\nSchlafmitte an Arbeitstagen/freien Tagen: " + dateFormat.format(new Date(msw)) + "/" + dateFormat.format(new Date(msf))
+                + "\nKorrigierte Schlafmitte: " + dateFormat.format(new Date(msfsc))
+                + "\nSocial Jetlag: " + dateFormat.format(new Date(sjl))
+                + "\nAnzahl Arbeitstage/Woche: " + wd
+                + "\nBettgehzeit an Arbeitstagen/freien Tagen: " + dateFormat.format(btw) + "/" + dateFormat.format(btf)
+                + "\nBereit zum Einschlafen an Arbeitstagen/freien Tagen: " + dateFormat.format(sprepw) + "/" + dateFormat.format(sprepf)
+                + "\nZeit um einzuschlafen an Arbeitstagen/freien Tagen: " + dateFormat.format(new Date(slatw)) + "/" + dateFormat.format(new Date(slatf))
+                + "\nWecker an Arbeitstagen/freien Tagen: " + alarmw + "/" + alarmf
+                + "\nZeit bis zum Aufstehen an Arbeitstagen/freien Tagen: " + dateFormat.format(new Date(siw)) + "/" + dateFormat.format(new Date(sif))
+                + "\nWöchentlicher Schlafverlust: " + dateFormat.format(new Date(slossweek))
+                + "\nDurchschnittliche wöchentliche Lichtexposition: " + dateFormat.format(new Date(leweek))
+                + "\nGesamte Zeit im Bett an Arbeitstagen/freien Tagen: " + dateFormat.format(new Date(tbtw)) + "/" + dateFormat.format(new Date(tbtf))
+                + "\nBemerkungen: " + comments);
     }
-
 
     public void saveOnline(View view) {
         //Neue DBController-Instanz erzeugen
@@ -233,23 +183,18 @@ public class DisplayMCTQ5Activity extends ActionBarActivity {
         controller.insertData(queryStringValues, queryBooleanValues, queryDateValues, queryIntValues, queryFloatValues);
         //Upload der Daten, wenn Netzwerk verfübgar.
         if (Utility.isOnline(this)) {
-            Utility.doUpload("http://10.0.2.2/mctq_db_adapter/insertdata.php", "mctqDataJSON", controller.composeJSONfromSQLite(), new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, byte[] responseString, Throwable throwable) {
-                            // called when response HTTP status is "4xx" (i.e. 401, 403, 404)
-                            Toast.makeText(getApplicationContext(), "Fehler: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] responseString) {
-                            // called when response HTTP status is "200 OK"
-                            controller.updateSyncStatus();
-                            Toast.makeText(getApplicationContext(), "Daten hochgeladen!", Toast.LENGTH_LONG).show();
-                        }
+            Utility.doUpload(String.valueOf(R.string.MCTQ_uploadstring), "mctqDataJSON", controller.composeJSONfromSQLite(), new Utility.OnMyHttpResponseCallback() {
+                @Override
+                public void onMyHttpResponse(boolean success, String response) {
+                    if (success) {
+                        Toast.makeText(getApplicationContext(), R.string.MCTQ_datauploadsuccess, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.MCTQ_datauploaderrordialog + response, Toast.LENGTH_LONG).show();
                     }
-            );
+                }
+            });
         } else {
-            Toast.makeText(getApplicationContext(), "Nicht online, bitte später versuchen!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.MCTQ_offline, Toast.LENGTH_LONG).show();
         }
     }
 

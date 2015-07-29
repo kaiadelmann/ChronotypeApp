@@ -11,27 +11,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.apache.http.Header;
-
 
 public class DisplayMCTQActivity extends ActionBarActivity implements NumberPickerFragment.OnNumberDialogDoneListener, DataUploadDialogFragment.DataUploadDialogListener {
 
     public static final String EXTRA_MCTQ_BUSYBEE = "de.weissaufgrau.adelmann.mctq.BUSYBEE";
-    public static final String EXTRA_MCTQ_WORKDAYS = "de.weissaufgrau.adelmann.mctq.WORKDAYS";
-    public static final String EXTRA_MCTQ_WD_BEDTIME = "de.weissaufgrau.adelmann.mctq.WORKDAYSBEDTIME";
-    public static final String EXTRA_MCTQ_WD_PREPARATIONTIME = "de.weissaufgrau.adelmann.mctq.WORKDAYSPREPARATIONTIME";
-    public static final String EXTRA_MCTQ_WD_TIMETILLSLEEPING = "de.weissaufgrau.adelmann.mctq.WORKDAYSTIMETILLSLEEPING";
-    public static final String EXTRA_MCTQ_WD_UPTIME = "de.weissaufgrau.adelmann.mctq.WORKDAYSUPTIME";
-    public static final String EXTRA_MCTQ_WD_ALARMCLOCK = "de.weissaufgrau.adelmann.mctq.WORKDAYSALARMCLOCK";
-    public static final String EXTRA_MCTQ_WD_TIMETILLGETTINGUP = "de.weissaufgrau.adelmann.mctq.WORKDAYSTIMETILLGETTINGUP";
-    public static final String EXTRA_MCTQ_OD_BEDTIME = "de.weissaufgrau.adelmann.mctq.OFFDAYSBEDTIME";
-    public static final String EXTRA_MCTQ_OD_PREPARATIONTIME = "de.weissaufgrau.adelmann.mctq.OFFDAYSPREPARATIONTIME";
-    public static final String EXTRA_MCTQ_OD_TIMETILLSLEEPING = "de.weissaufgrau.adelmann.mctq.OFFDAYSTIMETILLSLEEPING";
-    public static final String EXTRA_MCTQ_OD_UPTIME = "de.weissaufgrau.adelmann.mctq.OFFDAYSUPTIME";
-    public static final String EXTRA_MCTQ_OD_ALARMCLOCK = "de.weissaufgrau.adelmann.mctq.OFFDAYSALARMCLOCK";
-    public static final String EXTRA_MCTQ_OD_TIMETILLGETTINGUP = "de.weissaufgrau.adelmann.mctq.OFFDAYSTIMETILLGETTINGUP";
+    public static final String EXTRA_MCTQ_WD = "de.weissaufgrau.adelmann.mctq.WORKDAYS";
+    public static final String EXTRA_MCTQ_BTW = "de.weissaufgrau.adelmann.mctq.WORKDAYSBEDTIME";
+    public static final String EXTRA_MCTQ_SPREPW = "de.weissaufgrau.adelmann.mctq.WORKDAYSPREPARATIONTIME";
+    public static final String EXTRA_MCTQ_SLATW = "de.weissaufgrau.adelmann.mctq.WORKDAYSTIMETILLSLEEPING";
+    public static final String EXTRA_MCTQ_SEW = "de.weissaufgrau.adelmann.mctq.WORKDAYSUPTIME";
+    public static final String EXTRA_MCTQ_ALARMW = "de.weissaufgrau.adelmann.mctq.WORKDAYSALARMCLOCK";
+    public static final String EXTRA_MCTQ_SIW = "de.weissaufgrau.adelmann.mctq.WORKDAYSTIMETILLGETTINGUP";
+    public static final String EXTRA_MCTQ_BTF = "de.weissaufgrau.adelmann.mctq.OFFDAYSBEDTIME";
+    public static final String EXTRA_MCTQ_SPREPF = "de.weissaufgrau.adelmann.mctq.OFFDAYSPREPARATIONTIME";
+    public static final String EXTRA_MCTQ_SLATF = "de.weissaufgrau.adelmann.mctq.OFFDAYSTIMETILLSLEEPING";
+    public static final String EXTRA_MCTQ_SEF = "de.weissaufgrau.adelmann.mctq.OFFDAYSUPTIME";
+    public static final String EXTRA_MCTQ_ALARMF = "de.weissaufgrau.adelmann.mctq.OFFDAYSALARMCLOCK";
+    public static final String EXTRA_MCTQ_SIF = "de.weissaufgrau.adelmann.mctq.OFFDAYSTIMETILLGETTINGUP";
+    public static final String EXTRA_MCTQ_LEW = "de.weissaufgrau.adelmann.mctq.WORKDAYSLIGHTEXPOSURE";
+    public static final String EXTRA_MCTQ_LEF = "de.weissaufgrau.adelmann.mctq.OFFDAYSLIGHTEXPOSURE";
     public static final String EXTRA_MCTQ_COMMENTS = "de.weissaufgrau.adelmann.mctq.COMMENTS";
     public static final String EXTRA_MCTQ_EXIT = "de.weissaufgrau.adelmann.mctq.EXIT";
 
@@ -43,6 +41,7 @@ public class DisplayMCTQActivity extends ActionBarActivity implements NumberPick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_mctq);
 
@@ -62,24 +61,20 @@ public class DisplayMCTQActivity extends ActionBarActivity implements NumberPick
     public void onDialogPositiveClick(DialogFragment dialog) {
         //Upload der Daten, wenn Netzwerk verfübgar.
         if (Utility.isOnline(this)) {
-            Utility.doUpload("http://10.0.2.2/mctq_db_adapter/insertdata.php", "mctqDataJSON", controller.composeJSONfromSQLite(), new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, byte[] responseString, Throwable throwable) {
-                            // called when response HTTP status is "4xx" (i.e. 401, 403, 404)
-                            Toast.makeText(getApplicationContext(), "Fehler: " + throwable.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] responseString) {
-                            // called when response HTTP status is "200 OK"
-                            controller.updateSyncStatus();
-                            Toast.makeText(getApplicationContext(), "Daten hochgeladen!", Toast.LENGTH_LONG).show();
-                        }
-
+            Utility.doUpload(String.valueOf(R.string.MCTQ_uploadstring), "mctqDataJSON", controller.composeJSONfromSQLite(), new Utility.OnMyHttpResponseCallback() {
+                @Override
+                public void onMyHttpResponse(boolean success, String response) {
+                    if (success) {
+                        Toast.makeText(getApplicationContext(), R.string.MCTQ_datauploadsuccess, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.MCTQ_datauploaderrordialog + response, Toast.LENGTH_LONG).show();
+                        ende();
                     }
-            );
+                }
+            });
         } else {
-            Toast.makeText(getApplicationContext(), "Nicht online, bitte später versuchen!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), R.string.MCTQ_offline, Toast.LENGTH_LONG).show();
+            ende();
         }
     }
 
@@ -88,7 +83,7 @@ public class DisplayMCTQActivity extends ActionBarActivity implements NumberPick
         // User touched the dialog's negative button
         // Daten verwerfen
         controller.truncTable("mctq_data");
-        Toast.makeText(getApplicationContext(), "Daten gelöscht!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), R.string.MCTQ_datadeleted, Toast.LENGTH_LONG).show();
         controller.close();
     }
 
@@ -160,7 +155,7 @@ public class DisplayMCTQActivity extends ActionBarActivity implements NumberPick
         if (id == 1) {
             tv = (TextView) findViewById(R.id.MCTQ_block_1_a2_id);
             workdays = value;
-            tv.setText(value);
+            tv.setText(Integer.toString(value));
         }
     }
 
@@ -170,13 +165,21 @@ public class DisplayMCTQActivity extends ActionBarActivity implements NumberPick
         if (busybee) {
             intent = new Intent(this, DisplayMCTQ3Activity.class);
             intent.putExtra(EXTRA_MCTQ_BUSYBEE, busybee);
-            intent.putExtra(EXTRA_MCTQ_WORKDAYS, workdays);
+            intent.putExtra(EXTRA_MCTQ_WD, workdays);
         } else {
             intent = new Intent(this, DisplayMCTQ2Activity.class);
             intent.putExtra(EXTRA_MCTQ_BUSYBEE, busybee);
-            intent.putExtra(EXTRA_MCTQ_WORKDAYS, workdays);
+            intent.putExtra(EXTRA_MCTQ_WD, workdays);
         }
 
         startActivity(intent);
+    }
+
+    public void ende() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_EXIT, true);
+        startActivity(intent);
+        finish();
     }
 }

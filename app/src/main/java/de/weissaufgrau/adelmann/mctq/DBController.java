@@ -104,11 +104,12 @@ public class DBController extends SQLiteOpenHelper {
         long insertok = database.insert("mctq_data", null, values);
         database.close();
 
+        /* DEBUG
         if (insertok > 0) {
             System.out.println("Lokaler INSERT erfolgreich!");
         } else {
             System.out.println("Lokaler INSERT fehlgeschlagen!");
-        }
+        }*/
     }
 
     /**
@@ -199,7 +200,7 @@ public class DBController extends SQLiteOpenHelper {
     public String getSyncStatus() {
         String msg = null;
         if (this.dbSyncCount() == 0) {
-            msg = "SQLite and Remote MySQL DBs are in Sync!";
+            msg = "SQLite and Remote MySQL DB are in Sync!";
         } else {
             msg = "DB Sync needed";
         }

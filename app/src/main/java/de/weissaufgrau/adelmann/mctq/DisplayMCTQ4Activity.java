@@ -13,41 +13,44 @@ import java.util.Date;
 public class DisplayMCTQ4Activity extends ActionBarActivity {
 
     private boolean busybee = false;
-    private int workdays = 0;
-    private Date wdbedtime = new Date();
-    private Date wdpreparationtime = new Date();
-    private Date wduptime = new Date();
-    private boolean wdalarmclock = true;
-    private int wdtimetillsleeping = 0;
-    private int wdtimetillgettingup = 0;
-    private Date odbedtime = new Date();
-    private Date odpreparationtime = new Date();
-    private Date oduptime = new Date();
-    private boolean odalarmclock = true;
-    private int odtimetillsleeping = 0;
-    private int odtimetillgettingup = 0;
+    private int wd = 0;
+    private Date btw = new Date();
+    private Date sprepw = new Date();
+    private Date sew = new Date();
+    private boolean alarmw = true;
+    private int slatw = 0;
+    private int siw = 0;
+    private Date btf = new Date();
+    private Date sprepf = new Date();
+    private Date sef = new Date();
+    private boolean alarmf = true;
+    private int slatf = 0;
+    private int sif = 0;
     private String comments = "";
+    private Date lew = new Date();
+    private Date lef = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_mctq4);
 
         Intent intent = getIntent();
         busybee = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_BUSYBEE, false);
-        workdays = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_WORKDAYS, 0);
-        odbedtime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_BEDTIME);
-        odpreparationtime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_PREPARATIONTIME);
-        odtimetillsleeping = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_TIMETILLSLEEPING, 0);
-        oduptime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_UPTIME);
-        odalarmclock = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_ALARMCLOCK, true);
-        odtimetillgettingup = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_TIMETILLGETTINGUP, 0);
-        wdbedtime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_BEDTIME);
-        wdpreparationtime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_PREPARATIONTIME);
-        wdtimetillsleeping = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_TIMETILLSLEEPING, 0);
-        wduptime = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_UPTIME);
-        wdalarmclock = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_ALARMCLOCK, true);
-        wdtimetillgettingup = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_TIMETILLGETTINGUP, 0);
+        wd = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD, 0);
+        btf = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_BTF);
+        sprepf = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SPREPF);
+        slatf = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_SLATF, 0);
+        sef = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SEF);
+        alarmf = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_ALARMF, true);
+        sif = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_SIF, 0);
+        btw = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_BTW);
+        sprepw = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SPREPW);
+        slatw = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_SLATW, 0);
+        sew = (Date) intent.getSerializableExtra(DisplayMCTQActivity.EXTRA_MCTQ_SEW);
+        alarmw = intent.getBooleanExtra(DisplayMCTQActivity.EXTRA_MCTQ_ALARMW, true);
+        siw = intent.getIntExtra(DisplayMCTQActivity.EXTRA_MCTQ_SIW, 0);
     }
 
 
@@ -84,21 +87,22 @@ public class DisplayMCTQ4Activity extends ActionBarActivity {
 
         Intent intent = new Intent(this, DisplayMCTQ5Activity.class);
         intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_BUSYBEE, busybee);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_WORKDAYS, workdays);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_BEDTIME, odbedtime);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_PREPARATIONTIME, odpreparationtime);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_TIMETILLSLEEPING, odtimetillsleeping);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_UPTIME, oduptime);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_ALARMCLOCK, odalarmclock);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_OD_TIMETILLGETTINGUP, odtimetillgettingup);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_BEDTIME, wdbedtime);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_PREPARATIONTIME, wdpreparationtime);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_TIMETILLSLEEPING, wdtimetillsleeping);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_UPTIME, wduptime);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_ALARMCLOCK, wdalarmclock);
-        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD_TIMETILLGETTINGUP, wdtimetillgettingup);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_WD, wd);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_BTF, btf);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_SPREPF, sprepf);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_SLATF, slatf);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_SEF, sef);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_ALARMF, alarmf);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_SIF, sif);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_BTW, btw);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_SPREPW, sprepw);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_SLATW, slatw);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_SEW, sew);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_ALARMW, alarmw);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_SIW, siw);
         intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_COMMENTS, comments);
-
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_LEW, lew);
+        intent.putExtra(DisplayMCTQActivity.EXTRA_MCTQ_LEF, lef);
         startActivity(intent);
     }
 }

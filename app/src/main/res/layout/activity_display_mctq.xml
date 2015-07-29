@@ -8,12 +8,12 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 tools:context=".MainActivity">
 
-    <TextView
+    <!--<TextView
         android:id="@+id/header"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_activity_display_mctq"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>-->
 
     <LinearLayout
         android:id="@+id/llcontainer1"
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/MCTQ_block_1_a2_id"
             android:onClick="showNumberPickerDialog"
-            android:src="@drawable/number19"/>
+            android:src="@drawable/ic_123"/>
     </LinearLayout>
 
     <Button
